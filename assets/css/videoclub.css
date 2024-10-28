@@ -1,0 +1,16 @@
+/**
+ * Desarrollo web en Entorno Servidor
+ * curso 2024|25
+ * 
+ * @author Antonio J. Sánchez
+ */
+
+#capa { width: 90vw; }
+
+.main { padding: 20px; }
+
+.item { display: table-row; width: 100%; }
+.item > img  { width: 150px; margin: 20px; box-shadow: 2px 2px 5px #666; float: left; } 
+.item > h2   { font-size: 32pt; line-height: 0.5pt; }
+.item > h5   { font-size: 14pt; }
+.item > p    { text-align: justify; }
