@@ -8,6 +8,8 @@
      */
 
     session_start() ;
+    $_SESSION["_token"] = md5(time()) ;
+    
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -19,26 +21,34 @@
     <link href="./assets/css/videoclub.css" rel="stylesheet" />
 
     <script src="./assets/js/jquery-3.7.1.min.js"></script>
-    <script src="../assets/js/videoclub.js"></script>
+    <script src="./assets/js/videoclub.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">    
 
 </head>
 <body>
 
-    <?php
+    <div class="container">
+        <?php
 
-        require_once "./clases/Usuario.php" ;
-        
-        $usuario = unserialize($_SESSION["_usuario"]) ;
+            require_once "./clases/Usuario.php" ;
+            
+            $usuario = unserialize($_SESSION["_usuario"]) ;
 
-        echo "<pre>".print_r($usuario, true)."</pre>" ;
-    ?>
+            echo "<pre>".print_r($_SESSION, true)."</pre>" ;
+        ?>
 
-    <form>
-        <input id="patron" type="text" name="patron" />
-        <button type="button" id="enviar">Buscar</button>
-    </form>
+        <h2>Bienvenido/a, <?= $usuario ?></h2>
+        <a href="logout.php">Cerrar sesion</a>
 
-    <div id="capa"></div>
+        <form class="mt-4">
+            <input id="patron" type="text" name="patron" />
+            <button type="button" id="enviar">Buscar</button>
+        </form>
+
+        <div id="capa"></div>
+
+    </div>
     
 </body>
 </html>

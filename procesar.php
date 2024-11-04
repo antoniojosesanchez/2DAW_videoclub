@@ -7,6 +7,8 @@
      * @author Antonio J. Sánchez
      */
 
+    session_start() ;
+
     require_once "./libs/datos_peliculas.php" ;    
 
     # recuperamos el patrón que se nos envía y lo ponemos en minúsculas

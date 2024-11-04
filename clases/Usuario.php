@@ -38,4 +38,11 @@
             return (($this->email == $email) && ($this->clave == $clave)) ;            
         }
 
+        /**
+         * @return string
+         */
+        public function __toString(): string {
+            return "{$this->nombre} {$this->apellidos}" ;
+        }
+
     }

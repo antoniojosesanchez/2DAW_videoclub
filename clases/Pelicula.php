@@ -25,6 +25,7 @@
                         <h2>{$this->titulo}</h2>
                         <h5>{$this->plataforma}, {$this->nota}</h5>
                         <p>{$this->argumento}</p>
+                        <p><a href=\"borrar.php?id=2&token={$_SESSION["_token"]}\" class=\"btn btn-danger\">Borrar</a> <a href=\"editar.php\" class=\"btn btn-primary\">Editar</a></p>
                     </div>" ;
         }
 

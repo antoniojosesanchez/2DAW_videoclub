@@ -15,7 +15,7 @@ return<<<EOD
         <img src="{$pelicula->poster}" />
         <h2>{$pelicula->titulo}</h2>
         <h5>{$pelicula->plataforma}, {$pelicula->nota}</h5>
-        <p>{$pelicula->argumento}</p>
+        <p>{$pelicula->argumento}</p>        
     </div>
     
 EOD;
