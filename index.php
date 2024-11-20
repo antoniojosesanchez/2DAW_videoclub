@@ -7,28 +7,60 @@
      * @author Antonio J. Sánchez
      */
 
+    session_start() ;
+    if(!empty($_SESSION)) die(header("location: main.php")) ;
+
     $visible = "d-none" ;
 
     if (!empty($_POST)):
         
-        require_once "./libs/datos_usuarios.php" ;
+        # comprobar si existe el usuario en la base de datos
 
-        # buscamos si existe un usuario que coincida con el que se nos ha introducido
-        $i = 0 ;
-        #$encontrado = false ;
-        while(($i < count($usuarios)) && 
-              (!$usuarios[$i]->login($_POST["email"], $_POST["clave"]))) $i++ ;
-            #$encontrado = $usuarios[$i]->login($_POST["email"], $_POST["clave"]) ;
-            #$i++ ;
-        #endwhile ;
+        # 1. establecemos una conexión con el servidor de base de datos y seleccionamos
+        #    la base de datos que queremos utilizar.
+        #
+        # new mysqli(host, usuario, clave [, base_datos [, puerto]]) ;        
+        #$db = new mysqli("db", "root", "") ;
 
-        #echo $encontrado?"Se ha encontrado el usuario.":"Email o contraseña incorrecta." ;                 
+        # seleccionar la base de datos con la que quiero trabajar (use mibd)
+        #$db->select_db("mibd") ;   
 
-        # si hemos encontrado al usuario redirigimos y matamos el proceso PHP.
-        if ($i < count($usuarios)): 
-            session_start() ;
-            $_SESSION["_usuario"] = serialize($usuarios[$i]) ;
-            die(header("location: buscar.php")) ;
+        # 2. establecemos una conexión con el servidor de base de datos gestionando
+        #    una posible excepción en la conexión.
+
+        try {
+            $sqli = new mysqli("db", "root", "", "mibd") ;            
+        } catch(mysqli_sql_exception $excepcion) {
+            die("ERROR de conexión con el motor de base de datos: {$excepcion->getMessage()}<br/>") ;
+        }
+
+        # buscamos el usuario en la base de datos
+        $email = $sqli->real_escape_string($_POST["email"]) ;
+        $clave = $sqli->real_escape_string($_POST["clave"]) ;
+        $sql = "SELECT email, nombre, apellido, foto FROM usuario WHERE email = '{$email}' AND clave = '{$clave}' ;" ;        
+        //echo $sql ;        
+
+        # lanzamos la consulta
+        $result = $sqli->query($sql) ;
+    
+        # comprobamos si hemos encontrado el usuario
+        if ($result->num_rows > 0):
+
+            # recuperamos el usuario
+            require_once "./clases/Usuario.php" ;
+            $usuario = $result->fetch_object("Usuario") ; 
+            
+            # cerrar la conexión con la base de datos
+            $sqli->close() ;
+
+            # guardamos los datos de usuario en la sesión
+            $_SESSION["_tiempo"]  = time() + 300 ;
+            $_SESSION["_usuario"] = serialize($usuario) ;
+
+            # redirigimos a la página principal
+            die(header("location: main.php")) ;            
+        else:
+            echo "No he encontrado el usuario<br/>" ;
         endif ;
 
         # si no hemos encontrado el usuario, mostramos el formulario de login con un mensaje de error
@@ -62,6 +94,7 @@
                     <div class="row">
                         <div class="col">
                             <input class="form-control" type="text" name="email" placeholder="email@videoclub.com"
+                                   value="vazema3@wisc.edu"
                                    autofocus required />
                         </div>
                     </div>
@@ -69,7 +102,9 @@
                     <!-- CONTRASEÑA -->
                     <div class="row mt-2">
                         <div class="col">
-                            <input class="form-control" type="password" name="clave" required  />
+                            <input class="form-control" type="password" name="clave" 
+                                   value="12345678"
+                                   required  />
                         </div>
                     </div>
 
