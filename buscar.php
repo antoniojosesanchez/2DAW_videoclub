@@ -5,6 +5,8 @@
      * curso 2024|25
      * 
      * @author Antonio J. Sánchez
+     * SELECT * FROM pelicula P JOIN plataforma_pelicula PP ON (P.idPel = PP.idPel) JOIN plataforma_usuario PU ON (PP.idPla = PU.idPla) JOIN usuario U ON (PU.idUsu = U.idUsu) WHERE U.email = "vazema3@wisc.edu" ;
+
      */
 
     session_start() ;    
@@ -40,9 +42,18 @@
 </head>
 <body>
 
-    <div class="container">     
+    <div class="container">
+        <?php
+
+            require_once "./clases/Usuario.php" ;
+            
+            $usuario = unserialize($_SESSION["_usuario"]) ;
+
+           // echo "<pre>".print_r($usuario, true)."</pre>" ;
+        ?>        
     
-        <?php require_once "./libs/menu.php" ; ?>
+
+       <?php require_once "./libs/menu.php" ; ?>
 
         <form class="mt-4">
             <input id="patron" type="text" name="patron" />

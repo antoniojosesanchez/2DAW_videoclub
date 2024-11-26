@@ -36,9 +36,10 @@
 
         # buscamos el usuario en la base de datos
         $email = $sqli->real_escape_string($_POST["email"]) ;
-        $clave = $sqli->real_escape_string($_POST["clave"]) ;
+        $clave = md5($sqli->real_escape_string($_POST["clave"])) ;
         $sql = "SELECT email, nombre, apellido, foto FROM usuario WHERE email = '{$email}' AND clave = '{$clave}' ;" ;        
         //echo $sql ;        
+        //die() ;
 
         # lanzamos la consulta
         $result = $sqli->query($sql) ;
@@ -94,7 +95,7 @@
                     <div class="row">
                         <div class="col">
                             <input class="form-control" type="text" name="email" placeholder="email@videoclub.com"
-                                   value="vazema3@wisc.edu"
+                                   value="faveyarz2@yale.edu"
                                    autofocus required />
                         </div>
                     </div>

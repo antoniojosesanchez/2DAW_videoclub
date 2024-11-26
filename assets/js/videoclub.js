@@ -5,9 +5,14 @@
  * @author Antonio J. Sánchez
  */
 
-// Solicitud AJAX para el buscador
+
 $(document).ready(function() {
 
+
+    // cuando se selecciona una puntuación enviamos el formulario
+    $(".estrellas input").on("change", () => { $("#estrellas").submit() ; }) ;
+
+    // solicitud AJAX para el buscador
     $("#enviar").on("click", () => {
 
         // recuperamos el valor del campo input

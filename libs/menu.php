@@ -1,12 +1,4 @@
 <?php
-
-    /**
-     * Desarrollo web en Entorno Servidor
-     * curso 2024|25
-     * 
-     * @author Antonio J. Sánchez
-     */
-    
     # recuperamos el usuario de la sesión.
     require_once "./clases/Usuario.php" ;
     $usuario = unserialize($_SESSION["_usuario"]) ;

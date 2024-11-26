@@ -14,3 +14,28 @@
 .item > h2   { font-size: 32pt; line-height: 0.5pt; }
 .item > h5   { font-size: 14pt; }
 .item > p    { text-align: justify; }
+
+/* perfil de usuario */
+.profile { border-radius: 50%; width: 64px;}
+
+/* Sistema de puntuación con estrellas */
+.estrellas { direction: rtl; }
+
+.estrellas input {
+    display: none;
+}
+
+label {
+    font-size: 2rem;
+    color: #ddd;
+    cursor: pointer;
+}
+
+label:hover,
+label:hover ~ label {
+    color: #fd4;
+}
+
+input[type="radio"]:checked ~ label {
+    color: #fd4;
+}
