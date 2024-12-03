@@ -1,4 +1,11 @@
 <?php
+
+    /**
+     * Desarrollo web en Entorno Servidor
+     * curso 2024|25
+     * 
+     * @author Antonio J. Sánchez
+     */
     
     session_start() ;
 

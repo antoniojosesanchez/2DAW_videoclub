@@ -1,5 +1,12 @@
 <?php
 
+    /**
+     * Desarrollo web en Entorno Servidor
+     * curso 2024|25
+     * 
+     * @author Antonio J. Sánchez
+     */
+
     try {
         $pdo = new PDO("mysql:host=db;dbname=mibd;charset=utf8mb4", "root", "") ;
     } catch(PDOException $excepcion) {

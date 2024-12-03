@@ -1,0 +1,32 @@
+# Entornos de desarrollo
+.env
+.env.local
+.env.*.local
+
+# Configuración de Visual Studio Code
+.vscode/
+*.code-workspace
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Caché y sesiones de PHP
+*.log
+*.cache
+*.bak
+session.save_path/
+
+# Archivos temporales y de configuración local
+*.swp
+*.swo
+*.tmp
+*.log
+*.sql
+*.sqlite
+*.env
+node_modules/
+
+# Caché de errores y registros de depuración
+error_log
+debug.log
