@@ -32,7 +32,7 @@
     CURLOPT_HTTPHEADER     => [      
 
       // código de autorización  de acceso a la API
-      "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NzU4ZTRiNjI4Y2E1ZjZlMWI4ZDY5Y2U1Y2I2ZTZiOCIsIm5iZiI6MTUzOTE5MjU0Ni43MzUwMDAxLCJzdWIiOiI1YmJlMzZlMmMzYTM2ODU4ZjUwM2FiMTkiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.n1mFd7UL4_n01_5cNhDagOzGHKLwhh_ib2W6tv5w3ME",
+      "Authorization: Bearer xxxx",
 
       // tipo de información que esperamos recibir (también lo define la API)
       "accept: application/json",
