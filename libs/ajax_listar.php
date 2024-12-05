@@ -20,7 +20,7 @@
     define("MAX_ITEMS", 6) ;
     
     # actualizamos el tiempo de sesion
-    $_SESSION["_tiempo"] = time() + 300;
+    $_SESSION["_tiempo"] = time() + 3000;
 
     # recuperamos la página actual
     $pagina = $_GET["pagina"]??1 ;

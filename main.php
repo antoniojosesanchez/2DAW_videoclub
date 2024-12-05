@@ -20,7 +20,7 @@
     define("MAX_ITEMS", 6) ;
     
     # actualizamos el tiempo de sesion
-    $_SESSION["_tiempo"] = time() + 300;
+    $_SESSION["_tiempo"] = time() + 3000;
     
     # definimos el token (evita ataques csrf)
     # $_SESSION["_token"] = md5(time()) ;
@@ -48,6 +48,11 @@
 
     <div class="container"> 
         <?php require_once "./libs/menu.php" ; ?>
+
+        <?php
+            if(isset($_GET["ok"]))
+                echo "<div class=\"alert alert-info m-4 text-center\">La película se ha insertado con éxito</div>" ;
+        ?>
 
         <?php
             try {

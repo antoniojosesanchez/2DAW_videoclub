@@ -23,36 +23,27 @@
     require_once "./clases/Plataforma.php" ;
     require_once "./clases/Pelicula.php" ;
 
-    if (!empty($_POST)):
+    # recupero la película
+    if (isset($_GET["id"])):
 
-        if ($_SESSION["_token"] != $_POST["_token"])
-            exit(header("location: ./main.php")) ;        
-
-        # construir la sentencia SQL
-        $sql = "INSERT INTO pelicula(titulo, poster, argumento) VALUES (:titulo, :poster, :argumento) ;" ;
-
+        # recuperamos la base de datos
         $db = Database::iniciar() ;
-        $db->preparar($sql)
-           ->consulta([ ":titulo"    => $_POST["titulo"],
-                        ":poster"    => $_POST["poster"],
-                        ":argumento" => $_POST["argumento"],
-                     ]) ;
-        
-        # recuperamos el ID del registro insertado
-        $id = $db->ultimoId() ;        
 
-        # insertar las plataformas
-        $sql = "INSERT INTO plataforma_pelicula(idPla, idPel) VALUES (:idpla, :idpel) ;" ;
-        $db->preparar($sql) ;
+        # recuperamos la película
+        $pelicula = $db->preparar("SELECT titulo, poster, argumento FROM pelicula WHERE idPel = :idpel ;")
+                       ->consulta([":idpel" => $_GET["id"]])
+                       ->recuperarRegistro("Pelicula") ;
 
-        foreach($_POST["plat"] as $item)
-            $db->consulta([":idpla" => $item, ":idpel" => $id]) ;          
+        # recuperamos las plataformas
+        $db->preparar("SELECT P.idPla FROM plataforma P
+                       JOIN plataforma_pelicula PP ON (PP.idPla = P.idPla)
+                       WHERE PP.idPel=:idpel ;")
+            ->consulta([":idpel" => $_GET["id"]]) ;
 
-        # volvemos al main
-        header("location: ./main.php?ok") ;
+        # agrupamos las plataformas     
+        $plataformas = array_map(function($item) { return $item[0] ; }, $db->recuperarTodo()) ;
 
-    endif;
-
+    endif ;
 
     # definimos el token (evita ataques csrf)
     $_SESSION["_token"] = md5(time()) ;
@@ -85,7 +76,9 @@
             <div class="row">
                 <div class="col">
                     <label for="titulo">Título de la película: </label>
-                    <input id="titulo" class="form-control" type="text" name="titulo" required />
+                    <input id="titulo" class="form-control" 
+                           type="text" name="titulo" value="<?= $pelicula->titulo ?>"
+                           required />
                 </div>
             </div>
 
@@ -93,7 +86,8 @@
             <div class="row">
                 <div class="col">
                     <label for="poster">Poster de la película: </label>
-                    <input id="poster" class="form-control" type="text" name="poster" />
+                    <input id="poster" class="form-control" 
+                           type="text" name="poster" value="<?= $pelicula->poster ?>" />
                 </div>
             </div>
 
@@ -102,7 +96,8 @@
 
                 <div class="col-sm-8">
                     <label for="argumento">Argumento:</label>
-                    <textarea id="argumento" class="form-control" name="argumento" rows="7" required></textarea>
+                    <textarea id="argumento" class="form-control" 
+                              name="argumento" rows="7" required><?= $pelicula->argumento ?></textarea>
                 </div>
 
                 <div class="col">
@@ -116,7 +111,11 @@
                         $item = $db->recuperarRegistro("Plataforma") ;                        
 
                         while($item):
-                            echo "<option value=\"{$item->getId()}\">{$item->getNombre()}</option>" ;                
+                            # comprobamos si la plataforma está asociada a la película
+                            $selected = in_array($item->getId(), $plataformas)?"selected":"" ;
+
+                            # mostramos la opción correspondiente
+                            echo "<option value=\"{$item->getId()}\" {$selected}>{$item->getNombre()}</option>" ;                
                             $item = $db->recuperarRegistro("Plataforma") ;
                         endwhile ;
 

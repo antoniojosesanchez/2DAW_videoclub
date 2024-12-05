@@ -18,7 +18,7 @@
     define("DUMMY", "https://dummyimage.com/250x250.png/000000/ffffff&text=videoclub") ;
     
     # actualizamos el tiempo de sesion
-    $_SESSION["_tiempo"] = time() + 300;
+    $_SESSION["_tiempo"] = time() + 3000;
     
     # definimos el token (evita ataques csrf)
     $_SESSION["_token"] = md5(time()) ;
@@ -111,8 +111,8 @@
 
                         <div class="row mt-4">
                             <div class="col">
-                                <button class="btn btn-primary">Editar</button>
-                                <button class="btn btn-danger">Borrar</button>
+                                <a href="editar.php?id=<?= $_GET["id"] ?>" class="btn btn-primary">Editar</a>
+                                <a href="borrar.php?id=<?= $_GET["id"] ?>" class="btn btn-danger">Borrar</a>
                             </div>
                         </div>
                     </div>

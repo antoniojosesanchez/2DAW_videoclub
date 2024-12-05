@@ -1,12 +1,5 @@
 <?php
 
-    /**
-     * Desarrollo web en Entorno Servidor
-     * curso 2024|25
-     * 
-     * @author Antonio J. Sánchez
-     */
-
     class Database {
 
         const HOST       = "db" ;
@@ -17,6 +10,7 @@
         private static ?Database $instancia = null ;   
         private ?PDOStatement $sqlp = null ;
         private PDO $pdo ;  
+           
         
         private function __clone() {}
 
@@ -26,7 +20,8 @@
         private function __construct() {
 
             try {
-                $this->pdo = new PDO("mysql:host=". self::HOST .";dbname=". self::DB_NAME.";charset=utf8mb4", self::USER, self::CLAVE) ;
+                $this->pdo = new PDO("mysql:host=". self::HOST .";dbname=". self::DB_NAME.";charset=utf8mb4", 
+                                     self::USER, self::CLAVE) ;
             } catch(PDOException $excepcion) {
                 die("**Se ha producido un error de conexión con la base de datos.") ;
             }
@@ -42,32 +37,39 @@
         }
 
         /**
-         * Prepara la consulta y la ejecuta
+         * Preparamos la consulta
          * @param String $sql
-         * @param array $params
-         * @return object
+         * @return Database
          */
-        public function consulta(String $sql, array $params=[]):Database {
-            
-            // preparamos la consulta
-            if ($this->sqlp==null) $this->sqlp = $this->pdo->prepare($sql) ;
+        public function preparar(String $sql):Database {
+
+            $this->sqlp = null ;    // destruimos el objeto sqlp
+            $this->sqlp = $this->pdo->prepare($sql) ;
+            return $this ;
+        }
+
+        /**
+         * Ejecutar la consulta
+         * @param array $params
+         * @return Database
+         */
+        public function consulta(array $params=[]):Database {
 
             // vincular los parámetros especialmente si vamos a añadir restricciones
             // de tipo y tamaño.
-            //foreach($params as $clave => $valor) $sqlp->bindValue($clave, $valor) ;
+            //foreach($params as $clave => $valor) $this->sqlp->bindValue($clave, $valor) ;
             
             // lanzamos la consulta
             $this->sqlp->execute($params) ;
 
-            // devolvemos el mismo objeto
+            // devolvemos el resultado
             return $this ;
-
         }
 
         /**
          * Recupera un registro del conjunto de resultado
          * @param String $clase
-         * @return object
+         * @return object|false
          */
         public function recuperarRegistro(String $clase = "StdClass"):object|false {
             try {
@@ -75,6 +77,13 @@
             } catch(Exception $excepcion) {
                 die("**Se ha producido un error recuperando un valor de la base de datos.") ;
             }
+        }
+
+        /**
+         * @return array
+         */
+        public function recuperarTodo():array {
+            return $this->sqlp->fetchAll(PDO::FETCH_NUM) ;
         }
 
         /**
